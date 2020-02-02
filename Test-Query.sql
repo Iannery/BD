@@ -1,0 +1,36 @@
+CALL CRUD_USUARIO ('INSERT', NULL, '526.541.340-59', 'Joao do Teste', '123456', '09/09/97');
+
+CALL CRUD_USUARIO ('SELECT', '023.304.451-56', NULL, NULL, NULL, NULL);
+
+CALL CRUD_USUARIO('UPDATE', '023.304.451-56', '023.304.451-55', 'Ian Nery', '111111', '09/09/98');
+
+CALL CRUD_USUARIO('DELETE', '023.304.451-56', NULL, NULL, NULL, NULL);
+
+
+CALL CRUD_EVENTO('INSERT', NULL, 'L', 'Evento Teste', 1, 'Sao Paulo', 'SP', '023.304.451-56');
+
+CALL CRUD_EVENTO('SELECT', NULL, NULL, NULL, NULL, NULL, NULL, '023.304.451-56');
+
+CALL CRUD_EVENTO('UPDATE', 009, '14', 'Evento', 2, 'Rio de Janeiro', 'RJ', '023.304.451-56');
+
+
+
+SELECT * FROM Usuario WHERE cpfUsuario = '526.541.340-59';
+
+DELETE FROM Usuario where cpfUsuario = '023.304.451-56';
+
+INSERT INTO Evento VALUES(0, '', '', 3, '', '', '023.304.451-56');
+
+SELECT * FROM Evento;
+
+
+ALTER TABLE Usuario
+	MODIFY cpfUsuario CHAR(14) UNIQUE NOT NULL;
+
+
+
+    
+ALTER TABLE Evento
+	MODIFY classe INT NOT NULL;
+    
+    
