@@ -1,10 +1,10 @@
 
-DROP FUNCTION IF EXISTS verifica_cod_apres; 
+DROP FUNCTION IF EXISTS verifica_cod_ingresso; 
 
 
 DELIMITER $$
 
-CREATE FUNCTION verifica_cod_apres (codigo char(5)) RETURNS int
+CREATE FUNCTION verifica_cod_ingresso (codigo char(5)) RETURNS int
 DETERMINISTIC
 BEGIN
     DECLARE caracteres 	int;

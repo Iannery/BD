@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS sistema_ingressos;
+USE sistema_ingressos;
 
 CREATE TABLE Usuario (
     cpfUsuario CHAR(14) NOT NULL,

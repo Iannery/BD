@@ -16,7 +16,7 @@ BEGIN
 			VALUES (0, Icodapres, Icpf);
 		ELSE
 			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = "Não foi possivel cadastrar o usuario.";
+			SET MESSAGE_TEXT = "Não foi possivel cadastrar o ingresso.";
 		END IF;
 	END IF;
     
@@ -26,7 +26,7 @@ BEGIN
 			SELECT * FROM Ingresso WHERE cpfUsuario = Icpf;
         ELSE
 			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = "Não foi possivel localizar o usuario.";
+			SET MESSAGE_TEXT = "Não foi possivel localizar o ingresso.";
         END IF;
     END IF;
     
@@ -35,7 +35,7 @@ BEGIN
 				DELETE FROM Ingresso WHERE codigoIngresso = chave_primaria;
 			ELSE
 				SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = "Não foi possivel deletar o usuario.";
+				SET MESSAGE_TEXT = "Não foi possivel deletar o ingresso.";
 			END IF;
     END IF;
     

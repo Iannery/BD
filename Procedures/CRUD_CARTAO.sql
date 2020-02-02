@@ -19,7 +19,7 @@ BEGIN
 			VALUES (Cnumero, Ccodseg, Cdataval, Ccpf);
 		ELSE
 			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = "Não foi possivel cadastrar o usuario.";
+			SET MESSAGE_TEXT = "Não foi possivel cadastrar o cartão.";
 		END IF;
 	END IF;
     
@@ -29,7 +29,7 @@ BEGIN
 			SELECT * FROM CartaoDeCredito WHERE cpfUsuario = Ccpf;
         ELSE
 			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = "Não foi possivel localizar o usuario.";
+			SET MESSAGE_TEXT = "Não foi possivel localizar o cartão.";
         END IF;
     END IF;
     
@@ -45,11 +45,11 @@ BEGIN
 				WHERE cpfUsuario = chave_primaria;
             ELSE
 				SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = "Não foi possivel atualizar o usuario.";
+				SET MESSAGE_TEXT = "Não foi possivel atualizar o cartão.";
 			END IF;
         ELSE
 			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = "Não foi possivel atualizar o usuario.";
+			SET MESSAGE_TEXT = "Não foi possivel atualizar o cartão.";
         END IF;
 	END IF;
     
@@ -59,7 +59,7 @@ BEGIN
 				DELETE FROM CartaoDeCredito WHERE numero = chave_primaria;
 			ELSE
 				SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = "Não foi possivel deletar o usuario.";
+				SET MESSAGE_TEXT = "Não foi possivel deletar o cartão.";
 			END IF;
     END IF;
     

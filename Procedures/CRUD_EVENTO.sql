@@ -1,7 +1,10 @@
 DROP PROCEDURE IF EXISTS CRUD_EVENTO;
 
 DELIMITER $$
-CREATE PROCEDURE CRUD_EVENTO(
+
+
+
+CREATE PROCEDURE `CRUD_EVENTO`(
 	comando			CHAR(6),
     chave_primaria	INT(3),
     Efxetaria		CHAR(2),
@@ -10,7 +13,7 @@ CREATE PROCEDURE CRUD_EVENTO(
     Ecidade 		VARCHAR(15),
     Eestado         CHAR(2),
     Ecpf            CHAR(14)
-)  
+)
 BEGIN
 
 	IF (comando = 'INSERT') THEN		
@@ -24,7 +27,7 @@ BEGIN
 			VALUES(0, Efxetaria, Enome, Eclasse, Ecidade, Eestado, 0, Ecpf);
 		ELSE
 			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = "Não foi possivel cadastrar o usuario.";
+			SET MESSAGE_TEXT = "Não foi possivel cadastrar o evento.";
 		END IF;
 	END IF;
     
@@ -34,7 +37,7 @@ BEGIN
 			SELECT * FROM Evento WHERE cpfUsuario = Ecpf;
         ELSE
 			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = "Não foi possivel localizar o usuario.";
+			SET MESSAGE_TEXT = "Não foi possivel localizar o evento.";
         END IF;
     END IF;
     
@@ -55,11 +58,11 @@ BEGIN
 				WHERE codigoEvento = chave_primaria;
             ELSE
 				SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = "Não foi possivel atualizar o usuario.";
+				SET MESSAGE_TEXT = "Não foi possivel atualizar o evento.";
 			END IF;
         ELSE
 			SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT = "Não foi possivel atualizar o usuario.";
+			SET MESSAGE_TEXT = "Não foi possivel atualizar o evento.";
         END IF;
 	END IF;
     
@@ -69,8 +72,8 @@ BEGIN
 				DELETE FROM Evento WHERE codigoEvento = chave_primaria;
 			ELSE
 				SIGNAL SQLSTATE '45000'
-				SET MESSAGE_TEXT = "Não foi possivel deletar o usuario.";
+				SET MESSAGE_TEXT = "Não foi possivel deletar o cartão.";
 			END IF;
     END IF;
     
-END;
+END
