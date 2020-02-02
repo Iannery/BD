@@ -5,6 +5,7 @@ CREATE TABLE Usuario (
     nomeUsuario VARCHAR(50),
     senha CHAR(6) NOT NULL, 
     dataNascimento CHAR(8) NOT NULL,
+    numeroEventos INT NOT NULL DEFAULT 0,
     PRIMARY KEY (cpfUsuario)
 );
 
@@ -22,6 +23,7 @@ CREATE TABLE Evento(
     classe INT NOT NULL,
     cidade VARCHAR(15) NOT NULL, 
     estado CHAR(2) NOT NULL,
+    numeroApresentacoes INT NOT NULL DEFAULT 0,
     PRIMARY KEY (codigoEvento)
 );
 
