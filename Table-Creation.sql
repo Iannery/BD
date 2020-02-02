@@ -31,7 +31,7 @@ CREATE TABLE Apresentacao(
     preco INT NOT NULL,
     numeroSala INT NOT NULL, 
     horario CHAR(5) NOT NULL, 
-    disponibilidade INT NOT NULL,
+    disponibilidade INT DEFAULT 50,
     PRIMARY KEY (codigoApresentacao)
 );
 
