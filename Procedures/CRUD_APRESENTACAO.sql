@@ -1,7 +1,7 @@
-DROP PROCEDURE IF EXISTS CRUD_EVENTO;
+DROP PROCEDURE IF EXISTS CRUD_APRESENTACAO;
 
 DELIMITER $$
-CREATE PROCEDURE CRUD_EVENTO(
+CREATE PROCEDURE CRUD_APRESENTACAO(
 	comando			    CHAR(6),
     chave_primaria	    INT(4),
     Adataapres		    CHAR(8),
@@ -19,10 +19,10 @@ BEGIN
             verifica_disponibilidade(Adisponibilidade) = 1 AND
             verifica_sala(Anumerosala) = 1 AND
             verifica_preco(Apreco) = 1 AND 
-            verifica_cod_evento = 1) THEN
+            verifica_cod_evento(Acodevento) = 1) THEN
 
 			INSERT INTO Apresentacao
-			VALUES(0, Adataapres, Apreco, Anumerosala, Ahorario, NULL, Acodevento);
+			VALUES(0, Adataapres, Apreco, Anumerosala, Ahorario, Adisponibilidade, Acodevento);
 		ELSE
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = "Não foi possivel cadastrar a apresentação.";
@@ -47,7 +47,7 @@ BEGIN
                 verifica_disponibilidade(Adisponibilidade) = 1 AND
                 verifica_sala(Anumerosala) = 1 AND
                 verifica_preco(Apreco) = 1 AND 
-                verifica_cod_evento = 1) THEN
+                verifica_cod_evento(Acodevento) = 1) THEN
 
 				UPDATE Evento 
 				SET dataApresentacao = Adataapres,
