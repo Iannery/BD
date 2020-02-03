@@ -1,4 +1,3 @@
-/******************************************************/
 CALL CRUD_USUARIO ('INSERT', NULL, '526.541.340-59', 'Joao das Neves',  '123456', '22/02/48');
 CALL CRUD_USUARIO ('INSERT', NULL, '522.863.610-29', 'Rebeca Pereira',  'Passwo', '10/04/52');
 CALL CRUD_USUARIO ('INSERT', NULL, '991.268.828-76', 'Camila Costa',    'LololO', '01/09/68');
@@ -36,58 +35,3 @@ CALL CRUD_INGRESSO('INSERT', NULL, 1, '526.541.340-59');
 CALL CRUD_INGRESSO('INSERT', NULL, 11, '526.541.340-59');
 CALL CRUD_INGRESSO('INSERT', NULL, 11, '023.304.451-56');
 CALL CRUD_INGRESSO('INSERT', NULL, 11, '023.304.451-56');
-
-
-
-SELECT * FROM Usuario;
-
-CALL CRUD_APRESENTACAO('SELECT', NULL, NULL, NULL, NULL, NULL, NULL, 15);
-SELECT * FROM Apresentacao;
-SELECT * FROM Evento;
-SELECT * FROM Ingresso;
-DELETE FROM Ingresso;
-DELETE FROM Apresentacao;
-DELETE FROM Evento;
-DELETE FROM CartaoDeCredito;
-DELETE FROM Usuario;
-
-
-CALL CRUD_EVENTO('INSERT', NULL, '18',  'Evento Teste 6', 1, 'Sao Luis',    'MA', '526.541.340-59');
-
-
-
-
-
-
-
-
-
-
-CALL CRUD_USUARIO ('SELECT', '023.304.451-56', NULL, NULL, NULL, NULL);
-
-CALL CRUD_USUARIO('UPDATE', '023.304.451-56', '023.304.451-55', 'Ian Nery', '111111', '09/09/98');
-
-CALL CRUD_USUARIO('DELETE', '023.304.451-56', NULL, NULL, NULL, NULL);
-
-
-
-CALL CRUD_EVENTO('SELECT', NULL, NULL, NULL, NULL, NULL, NULL, '023.304.451-56');
-
-CALL CRUD_EVENTO('UPDATE', 009, '14', 'Evento', 2, 'Rio de Janeiro', 'RJ', '023.304.451-56');
-
-
-
-SELECT * FROM Usuario;
-
-DELETE FROM Usuario where cpfUsuario = '023.304.451-56';
-
-INSERT INTO Evento VALUES(0, '', '', 3, '', '', '023.304.451-56');
-
-
-
-DELETE FROM Evento;
-DELETE FROM Usuario;
-DELETE FROM Apresentacao;
-DELETE FROM Ingresso;
-DELETE FROM CartaoDeCredito;    
-    
