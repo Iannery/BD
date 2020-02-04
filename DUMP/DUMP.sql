@@ -13,14 +13,14 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------------------------------------------------------
 DROP SCHEMA IF EXISTS `sistema_ingressos_BD` ;
 CREATE SCHEMA IF NOT EXISTS `sistema_ingressos_BD` ;
-
+USE sistema_ingressos_BD;
 -- ----------------------------------------------------------------------------
 -- Table sistema_ingressos_BD.Apresentacao
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sistema_ingressos_BD`.`Apresentacao` (
   `codigoApresentacao` INT(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
   `dataApresentacao` CHAR(8) NOT NULL,
-  `preco` INT(11) NOT NULL,
+  `preco` DECIMAL(6,2) NOT NULL,
   `numeroSala` INT(11) NOT NULL,
   `horario` CHAR(5) NOT NULL,
   `disponibilidade` INT(11) NULL DEFAULT '50',
@@ -76,7 +76,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table sistema_ingressos_BD.Ingresso
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sistema_ingressos_BD`.`Ingresso` (
-  `codigoIngresso` INT(5) NOT NULL AUTO_INCREMENT,
+  `codigoIngresso` INT(5) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
   `codigoApresentacao` INT(4) UNSIGNED ZEROFILL NOT NULL,
   `cpfUsuario` CHAR(14) NOT NULL,
   PRIMARY KEY (`codigoIngresso`),
@@ -109,21 +109,31 @@ DEFAULT CHARACTER SET = latin1;
 -- ----------------------------------------------------------------------------
 -- View sistema_ingressos_BD.AprPorEvento
 -- ----------------------------------------------------------------------------
-USE `sistema_ingressos_BD`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sistema_ingressos`.`AprPorEvento` AS select `sistema_ingressos`.`Evento`.`nomeEvento` AS `Nome do Evento`,`sistema_ingressos`.`Evento`.`numeroApresentacoes` AS `Qtd de Apresentacoes` from `sistema_ingressos`.`Evento`;
-
+CREATE VIEW AprPorEvento AS
+SELECT nomeEvento AS 'Nome do Evento',
+numeroApresentacoes as 'Qtd de Apresentacoes'
+FROM Evento;
 -- ----------------------------------------------------------------------------
 -- View sistema_ingressos_BD.EPorUsuario
 -- ----------------------------------------------------------------------------
-USE `sistema_ingressos_BD`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sistema_ingressos`.`EPorUsuario` AS select `sistema_ingressos`.`Usuario`.`nomeUsuario` AS `Nome`,`sistema_ingressos`.`Usuario`.`numeroEventos` AS `Eventos cadastrados` from `sistema_ingressos`.`Usuario`;
-
+CREATE VIEW EPorUsuario AS
+SELECT nomeUsuario as 'Nome',
+numeroEventos as 'Eventos cadastrados'
+FROM Usuario;
 -- ----------------------------------------------------------------------------
 -- View sistema_ingressos_BD.MaisVendidos
 -- ----------------------------------------------------------------------------
-USE `sistema_ingressos_BD`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sistema_ingressos`.`MaisVendidos` AS select count(`sistema_ingressos`.`Ingresso`.`codigoIngresso`) AS `Quantidade de Vendas`,`sistema_ingressos`.`Ingresso`.`codigoApresentacao` AS `Apresentacao`,`sistema_ingressos`.`Evento`.`nomeEvento` AS `Evento` from ((`sistema_ingressos`.`Ingresso` join `sistema_ingressos`.`Evento`) join `sistema_ingressos`.`Apresentacao`) where ((`sistema_ingressos`.`Apresentacao`.`codigoEvento` = `sistema_ingressos`.`Evento`.`codigoEvento`) and (`sistema_ingressos`.`Apresentacao`.`codigoApresentacao` = `sistema_ingressos`.`Ingresso`.`codigoApresentacao`)) group by `sistema_ingressos`.`Ingresso`.`codigoApresentacao` order by count(`sistema_ingressos`.`Ingresso`.`codigoIngresso`) desc;
-
+CREATE VIEW MaisVendidos AS
+SELECT
+COUNT(codigoIngresso) as 'Quantidade de Vendas',
+Ingresso.codigoApresentacao as 'Apresentacao',
+Evento.nomeEvento as 'Evento'
+FROM Ingresso 
+INNER JOIN Evento, Apresentacao
+WHERE Apresentacao.codigoEvento = Evento.codigoEvento 
+AND Apresentacao.codigoApresentacao = Ingresso.codigoApresentacao
+GROUP BY Ingresso.codigoApresentacao
+ORDER BY COUNT(codigoIngresso) DESC;
 -- ----------------------------------------------------------------------------
 -- Routine sistema_ingressos_BD.CONSULTA_CPF
 -- ----------------------------------------------------------------------------
@@ -1022,7 +1032,7 @@ BEGIN
     INNER JOIN Apresentacao on Evento.codigoEvento = new.codigoEvento
     SET Evento.numeroApresentacoes = Evento.numeroApresentacoes + 1;
     END IF;
-END;
+END;$$
 
 -- ----------------------------------------------------------------------------
 -- Trigger sistema_ingressos_BD.tgr_evento
@@ -1043,7 +1053,7 @@ BEGIN
     INNER JOIN Evento on Usuario.cpfUsuario = new.cpfUsuario
     SET Usuario.numeroEventos = Usuario.numeroEventos + 1;
     END IF;
-END;
+END;$$
 
 -- ----------------------------------------------------------------------------
 -- Trigger sistema_ingressos_BD.tgr_disponibilidade
@@ -1063,7 +1073,7 @@ BEGIN
 		INNER JOIN Ingresso on a.codigoApresentacao = new.codigoApresentacao
 		SET a.disponibilidade = a.disponibilidade - 1;
 	END IF;
-END;
+END;$$
 
 -- ----------------------------------------------------------------------------
 -- Trigger sistema_ingressos_BD.tgr_usuario
@@ -1079,5 +1089,6 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Erro ao tentar excluir usuario';
     end if;
-END;
+END;$$
+
 SET FOREIGN_KEY_CHECKS = 1;
